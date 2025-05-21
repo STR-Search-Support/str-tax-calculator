@@ -1,41 +1,50 @@
 
-document.addEventListener("DOMContentLoaded", function () {
-  function launchEmojiConfetti() {
-    const container = document.getElementById("emoji-confetti-container");
-    const emojis = ["💵", "💸"];
-    const count = 30;
-    for (let i = 0; i < count; i++) {
-      const emoji = document.createElement("div");
-      emoji.classList.add("emoji-confetti");
-      emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-      emoji.style.left = `${Math.random() * 100}%`;
-      container.appendChild(emoji);
-      setTimeout(() => emoji.remove(), 3000);
-    }
+function waitForElement(selector, callback) {
+  const el = document.querySelector(selector);
+  if (el) {
+    callback(el);
+  } else {
+    setTimeout(() => waitForElement(selector, callback), 100);
   }
+}
 
-  function animateSavings(target, value) {
-    let start = 0;
-    const duration = 1200;
-    const startTime = performance.now();
-    function animate(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const formatted = Math.round(value * progress).toLocaleString();
-      target.innerText = `$${formatted}`;
-      if (progress < 1) requestAnimationFrame(animate);
-    }
-    requestAnimationFrame(animate);
+function launchEmojiConfetti() {
+  const container = document.getElementById("emoji-confetti-container");
+  const emojis = ["💵", "💸"];
+  const count = 30;
+  for (let i = 0; i < count; i++) {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji-confetti");
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = `${Math.random() * 100}%`;
+    container.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 3000);
   }
+}
 
-  function showCTAButton() {
-    const cta = document.getElementById("cta-button");
-    const currentParams = window.location.search;
-    const baseURL = "https://strsearch.com/low-checkout-page";
-    cta.href = `${baseURL}${currentParams}`;
-    document.getElementById("cta-container").classList.add("reveal-callout");
+function animateSavings(target, value) {
+  let start = 0;
+  const duration = 1200;
+  const startTime = performance.now();
+  function animate(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const formatted = Math.round(value * progress).toLocaleString();
+    target.innerText = `$${formatted}`;
+    if (progress < 1) requestAnimationFrame(animate);
   }
+  requestAnimationFrame(animate);
+}
 
+function showCTAButton() {
+  const cta = document.getElementById("cta-button");
+  const currentParams = window.location.search;
+  const baseURL = "https://strsearch.com/low-checkout-page";
+  cta.href = `${baseURL}${currentParams}`;
+  document.getElementById("cta-container").classList.add("reveal-callout");
+}
+
+waitForElement('#calculateBtn', function () {
   document.getElementById('calculateBtn').addEventListener('click', function () {
     const taxRate = parseFloat(document.getElementById('taxRate').value) / 100;
     const improvementBasisRaw = document.getElementById('improvementBasis').value.replace(/[$,]/g, '');
