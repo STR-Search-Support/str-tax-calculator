@@ -39,7 +39,7 @@ function animateSavings(target, value) {
 function showCTAButton() {
   const cta = document.getElementById("cta-button");
   const currentParams = window.location.search;
-  const baseURL = "https://strsearch.com/low-checkout-page";
+  const baseURL = "https://strsearch.com/calc-booking";
   cta.href = `${baseURL}${currentParams}`;
   document.getElementById("cta-container").classList.add("reveal-callout");
 }
